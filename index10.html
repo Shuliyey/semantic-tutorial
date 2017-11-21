@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+    <style type="text/css">
+      .custom {
+        height: 20rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ui blurring container">
+      <h1>Pariatur eiusmod fugiat sunt deserunt sit mollit duis.</h1>
+      <p>Sit est ipsum ea ut mollit incididunt anim ut dolore duis qui ipsum labore reprehenderit quis excepteur elit. Cillum nisi velit consectetur eiusmod ullamco adipisicing qui veniam do excepteur esse nulla quis. Enim fugiat veniam non est minim amet cupidatat eiusmod anim velit tempor est nisi eiusmod do amet.</p>
+      <p>Qui in mollit cillum reprehenderit laboris ex pariatur excepteur eu. Amet irure deserunt quis aliquip Lorem aliqua exercitation reprehenderit dolor mollit sunt veniam ea nisi adipisicing dolor. Dolor eiusmod nisi dolor enim proident aute aliquip officia anim labore commodo proident cillum laborum proident esse ut. Ullamco sit aliquip voluptate ad Lorem aliqua reprehenderit deserunt incididunt proident laborum officia. Laboris deserunt nisi proident reprehenderit consequat aute proident laborum in.</p>
+      <div class="ui segment custom">
+        <div class="ui dimmer">
+          <div class="content">
+            <div class="center">
+              <div class="ui inverted icon header">
+                <i class="warning icon"></i>
+                Warning
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui page dimmer">
+        <div class="content">
+          <div class="center">
+            <div class="ui inverted icon header">
+              <div class="ui loader"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button id="toggle" type="button" name="button" class="ui massive button">Toggle</button>
+      <button id="show" type="button" name="button" class="ui massive button">Show</button>
+      <button id="hide" type="button" name="button" class="ui massive button">Hide</button>
+      <button id="toggle-page" type="button" name="button" class="ui massive button">Toggle Page</button>
+      <button id="show-page" type="button" name="button" class="ui massive button">Show Page</button>
+      <button id="hide-page" type="button" name="button" class="ui massive button">Hide Page</button>
+    </div>
+    <script type="text/javascript">
+      // $('.ui.segment.custom').dimmer("hide");
+      // setTimeout(function() {
+      //   $('.ui.segment.custom').dimmer("show");
+      // }, 2300)
+      $('#toggle').click(function() {
+        $('.ui.segment.custom').dimmer("toggle");
+      })
+      $('#show').click(function() {
+        $('.ui.segment.custom').dimmer("show");
+      })
+      $('#hide').click(function() {
+        $('.ui.segment.custom').dimmer("hide");
+      })
+      $('.ui.dimmer.page').dimmer("hide");
+      $('#toggle-page').click(function() {
+        $('.ui.dimmer.page').dimmer("toggle");
+      })
+      $('#show-page').click(function() {
+        $('.ui.dimmer.page').dimmer("show");
+      })
+      $('#hide-page').click(function() {
+        $('.ui.dimmer.page').dimmer("hide");
+      })
+      // setTimeout(function() {
+      //   $('.ui.dimmer.page').dimmer("show");
+      // }, 2300)
+    </script>
+  </body>
+</html>
