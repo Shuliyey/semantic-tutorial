@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+  </head>
+  <body>
+    <div class="ui menu">
+      <a class="browse item">
+        Browse
+        <i class="dropdown icon"></i>
+      </a>
+      <div class="ui fluid popup bottom left transition visible" style="top: 555px; left: 1px; bottom: auto; right: auto; width: 652px;">
+        <div class="ui four column relaxed divided grid">
+          <div class="column">
+            <h4 class="ui header">Fabrics</h4>
+            <div class="ui link list">
+              <a class="item">Cashmere</a>
+              <a class="item">Linen</a>
+              <a class="item">Cotton</a>
+              <a class="item">Viscose</a>
+            </div>
+          </div>
+          <div class="column">
+            <h4 class="ui header">Size</h4>
+            <div class="ui link list">
+              <a class="item">Small</a>
+              <a class="item">Medium</a>
+              <a class="item">Large</a>
+              <a class="item">Plus Sizes</a>
+            </div>
+          </div>
+          <div class="column">
+            <h4 class="ui header">Colors</h4>
+            <div class="ui link list">
+              <a class="item">Neutrals</a>
+              <a class="item">Brights</a>
+              <a class="item">Pastels</a>
+            </div>
+          </div>
+          <div class="column">
+            <h4 class="ui header">Types</h4>
+            <div class="ui link list">
+              <a class="item">Knitwear</a>
+              <a class="item">Outerwear</a>
+              <a class="item">Pants</a>
+              <a class="item">Shoes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="item">
+        <i class="cart icon"></i>
+        Checkout
+      </a>
+    </div>
+  </body>
+  <script type="text/javascript">
+  $('.menu .browse')
+    .popup({
+      inline     : true,
+      hoverable  : true,
+      position   : 'bottom left',
+      delay: {
+        show: 300,
+        hide: 800
+      }
+    });
+  </script>
+</html>

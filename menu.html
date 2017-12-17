@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>Semantic UI</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
   </head>
   <style>
     .ui.left.vertical.menu {
@@ -14,19 +14,20 @@
       width: 86px;
     }
 
-    .ui.left.visible.vertical.menu ~ .pusher.right {
-      transform: translate3d(86px, 0, 0);
-    }
-
-    .pusher {
+    .main {
       height: 100vh;
-      width: calc(100% - 86px);
       overflow-y: scroll;
+      margin-left: 86px;
     }
 
-    .pusher .ui.menu {
-      width: 100%
+    /*.main .ui.menu {
+      width: 100%;
+    }*/
+
+    .ui.popup {
+      min-width: 200px;
     }
+
   </style>
   <body>
     <div class="ui sidebar visible left vertical labeled icon menu">
@@ -55,22 +56,61 @@
         Logout
       </div>
     </div>
-    <div class="pusher right">
+    <div class="main">
       <div class="ui borderless menu">
-        <div class="ui column grid container"  style="margin:0;">
-          <div class="left item twelve wide column">
-            <div class="ui icon input">
-              <input type="text" placeholder="Search...">
-              <i class="search icon"></i>
-            </div>
+        <div class="left item" style="width: 70%; max-width: 1500px">
+          <div class="ui icon input">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
           </div>
-          <div class="right item">
-            <i class="plus icon"></i>
+        </div>
+        <a class="browse right item">
+          <i class="plus icon"></i>
+        </a>
+        <div class="ui popup transition hidden">
+          <div class="ui equal width relaxed divided grid">
+            <div class="column">
+              <h4 class="ui header">Fabrics</h4>
+              <div class="ui link list">
+                <a class="item">Cashmere</a>
+                <a class="item">Linen</a>
+                <a class="item">Cotton</a>
+                <a class="item">Viscose</a>
+              </div>
+            </div>
+            <!-- <div class="column">
+              <h4 class="ui header">Fabrics</h4>
+              <div class="ui link list">
+                <a class="item">Cashmere</a>
+                <a class="item">Linen</a>
+                <a class="item">Cotton</a>
+                <a class="item">Viscose</a>
+              </div>
+            </div> -->
           </div>
         </div>
       </div>
-
+      <!-- <div class="ui menu">
+        <a class="browse right item">
+          Browse
+          <i class="dropdown icon"></i>
+        </a>
+        <div class="ui popup transition hidden">
+          <div class="ui four column relaxed divided grid">
+            <div class="column">
+              <h4 class="ui header">Fabrics</h4>
+              <div class="ui link list">
+                <a class="item">Cashmere</a>
+                <a class="item">Linen</a>
+                <a class="item">Cotton</a>
+                <a class="item">Viscose</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
         Pariatur exercitation dolore sunt esse aute eu irure adipisicing culpa fugiat quis magna irure ipsum do cillum adipisicing.
     </div>
+    <script src="menu.js" charset="utf-8"></script>
   </body>
 </html>
