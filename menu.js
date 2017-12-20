@@ -19,3 +19,5 @@ $('.menu .browse')
       hide: 800
     }
   });
+
+$('.ui.dropdown').dropdown()

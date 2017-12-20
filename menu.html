@@ -6,29 +6,32 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+    <style>
+      .ui.left.vertical.menu {
+        height: 100vh;
+        overflow-y: scroll;
+        width: 86px;
+      }
+
+      .main {
+        height: 100vh;
+        overflow-y: scroll;
+        margin-left: 86px;
+      }
+
+      /*.main .ui.menu {
+        width: 100%;
+      }*/
+
+      .ui.popup {
+        min-width: 200px;
+      }
+
+      .menu .item {
+        margin: 0px !important;
+      }
+    </style>
   </head>
-  <style>
-    .ui.left.vertical.menu {
-      height: 100vh;
-      overflow-y: scroll;
-      width: 86px;
-    }
-
-    .main {
-      height: 100vh;
-      overflow-y: scroll;
-      margin-left: 86px;
-    }
-
-    /*.main .ui.menu {
-      width: 100%;
-    }*/
-
-    .ui.popup {
-      min-width: 200px;
-    }
-
-  </style>
   <body>
     <div class="ui sidebar visible left vertical labeled icon menu">
       <div class="active purple item">
@@ -64,8 +67,30 @@
             <i class="search icon"></i>
           </div>
         </div>
-        <a class="browse right item">
+        <div class="ui icon buttons">
+          <div class="ui top right dropdown button item">
+            <i class="settings icon"></i>
+            <div class="menu">
+              <div class="item"><i class="edit icon"></i>Edit User</div>
+              <div class="item"><i class="delete icon"></i>Remove User</div>
+              <div class="item"><i class="hide icon"></i>Make Invisible</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui dropdown item">
+          Categories
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item">Electronics</a>
+            <a class="item">Automotive</a>
+            <a class="item">Home</a>
+          </div>
+        </div>
+        <a class="item">
           <i class="plus icon"></i>
+        </a>
+        <a class="browse item">
+          <i class="ellipsis vertical icon"></i>
         </a>
         <div class="ui popup transition hidden">
           <div class="ui equal width relaxed divided grid">
