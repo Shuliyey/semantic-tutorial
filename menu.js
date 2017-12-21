@@ -12,7 +12,7 @@
 $('.menu .browse')
   .popup({
     inline: true,
-    // hoverable  : true,
+    hoverable  : true,
     position   : 'bottom right',
     delay: {
       show: 300,
@@ -20,4 +20,9 @@ $('.menu .browse')
     }
   });
 
-$('.ui.dropdown').dropdown()
+$('.ui.sidebar.menu .item').on('click',function () {
+  $('.ui.sidebar.menu .active.item').removeClass('active');
+  $(this).addClass('active');
+});
+
+$('.ui.dropdown').dropdown();
