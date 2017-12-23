@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <title>Semantic UI</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -40,7 +41,7 @@
       </div>
       <div class="teal item">
         <i class="qrcode icon"></i>
-        扫码
+        二维码
       </div>
       <div class="teal item">
         <i class="settings icon"></i>
@@ -60,25 +61,32 @@
       </div>
     </div>
     <div class="main">
-      <div class="ui borderless menu">
-        <div class="left item" style="width: 70%; max-width: 1500px">
+      <div class="ui borderless menu grid">
+        <div class="left item" style="width: 50%; max-width: 1500px; min-width: 200px;">
           <div class="ui icon input">
             <input type="text" placeholder="Search...">
             <i class="search icon"></i>
           </div>
         </div>
-        <div class="ui icon buttons">
-          <div class="ui top right dropdown button item">
-            <i class="settings icon"></i>
-            <div class="menu">
-              <div class="item"><i class="edit icon"></i>Edit User</div>
-              <div class="item"><i class="delete icon"></i>Remove User</div>
-              <div class="item"><i class="hide icon"></i>Make Invisible</div>
+        <div class="ui top right dropdown icon item">
+          <i class="settings icon"></i>
+          <div class="menu">
+            <div class="item"><i class="edit icon"></i>Edit User</div>
+            <div class="item"><i class="delete icon"></i>Remove User</div>
+            <div class="item"><i class="hide icon"></i>Make Invisible</div>
+            <div class="item">
+              <i class="left dropdown icon"></i>
+              <span class="text"><i class="file outline icon"></i> Page</span>
+              <div class="left menu" style="right: 100%;">
+                <div class="item nav-reload" data-value="reload"><i class="refresh icon"></i> Reload</div>
+                <div class="item nav-back" data-value="back"><i class="arrow circle left icon"></i> Go back</div>
+                <div class="item nav-forward" data-value="forward"><i class="arrow circle right icon"></i> Go forward</div>
+              </div>
             </div>
           </div>
         </div>
         <div class="ui dropdown item">
-          Categories
+          类别
           <i class="dropdown icon"></i>
           <div class="menu">
             <a class="item">Electronics</a>
@@ -95,27 +103,130 @@
         <div class="ui popup transition hidden">
           <div class="ui equal width relaxed divided grid">
             <div class="column">
-              <h4 class="ui header">Fabrics</h4>
+              <h4 class="ui header">菜单</h4>
               <div class="menu">
-                <a class="item">Cashmere</a>
-                <a class="item">Linen</a>
-                <a class="item">Cotton</a>
-                <a class="item">Viscose</a>
+                <div class="ui simple dropdown item">
+                  <i class="caret left icon"></i>
+                  类别
+                  <div class="menu" style="left: auto; right: 100%; top: 0 ! important">
+                    <div class="item">Electronics</div>
+                    <div class="item">Automotive</div>
+                    <div class="item">Home</div>
+                  </div>
+                </div>
+                <div class="ui simple dropdown item">
+                  <i class="settings icon"></i>
+                  设置
+                  <div class="menu" style="left: auto; right: 100%; top: 0 ! important">
+                    <div class="item"><i class="edit icon"></i>Edit User</div>
+                    <div class="item"><i class="delete icon"></i>Remove User</div>
+                    <div class="item"><i class="hide icon"></i>Make Invisible</div>
+                    <div class="item">
+                      <i class="left dropdown icon"></i>
+                      <span class="text"><i class="file outline icon"></i> Page</span>
+                      <div class="left menu" style="right: 100%; left: auto ! important">
+                        <div class="item nav-reload" data-value="reload"><i class="refresh icon"></i> Reload</div>
+                        <div class="item nav-back" data-value="back"><i class="arrow circle left icon"></i> Go back</div>
+                        <div class="item nav-forward" data-value="forward"><i class="arrow circle right icon"></i> Go forward</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h4 class="ui header">物品</h4>
+              <div class="menu">
+                <a class="item"><i class="edit icon"></i>更改</a>
+                <a class="item"><i class="plus icon"></i>添加</a>
+                <a class="item"><i class="delete icon"></i>删除</a>
+              </div>
+              <h4 class="ui header">其他</h4>
+              <div class="menu">
+                <a class="item"><i class="exchange icon"></i>扫码</a>
+                <a class="item"><i class="mail outline icon"></i>反馈</a>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="core">
+        <!-- 主页 -->
         <div class="page file">
+          <div class="ui items container">
+            <div class="item">
+              <div class="image">
+                <img src="https://semantic-ui.com/images/wireframe/image.png">
+              </div>
+              <div class="content">
+                <a class="header">12 Years a Slave</a>
+                <div class="meta">
+                  <span class="type">Union Square 14</span>
+                  <span class="price">$24.2</span>
+                </div>
+                <div class="description">
+                  <p></p>
+                </div>
+                <div class="extra">
+                  <div class="ui label">IMAX</div>
+                  <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="image">
+                <img src="https://semantic-ui.com/images/wireframe/image.png">
+              </div>
+              <div class="content">
+                <a class="header">My Neighbor Totoro</a>
+                <div class="meta">
+                  <span class="type">IFC Cinema</span>
+                  <span class="price">$23.5</span>
+                </div>
+                <div class="description">
+                  <p></p>
+                </div>
+                <div class="extra">
+                  <!-- <div class="ui right floated primary button">
+                    Buy tickets
+                    <i class="right chevron icon"></i>
+                  </div> -->
+                  <div class="ui label">Limited</div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="image">
+                <img src="https://semantic-ui.com/images/wireframe/image.png">
+              </div>
+              <div class="content">
+                <a class="header">Watchmen</a>
+                <div class="meta">
+                  <span class="type">IFC</span>
+                  <span class="price">$25.7</span>
+                </div>
+                <div class="description">
+                  <p></p>
+                </div>
+                <div class="extra">
+                  <!-- <div class="ui right floated primary button">
+                    Buy tickets
+                    <i class="right chevron icon"></i>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- 二维码 -->
         <div class="page qrcode ui center aligned grid" style="display: none">
           <img class="ui rounded image" src="https://media-cdn.tripadvisor.com/media/photo-s/0b/e9/84/1a/wechat-qr-code.jpg">
         </div>
+        <!-- 设置 -->
         <div class="page settings">
         </div>
+        <!-- 联系 -->
         <div class="page users">
         </div>
+        <!-- 登陆 -->
         <div class="page sign-in ui center aligned grid" style="display: none">
           <div class="column">
             <h2 class="ui teal image header">
@@ -150,6 +261,7 @@
             </div>
           </div>
         </div>
+        <!-- 测试 -->
       </div>
     </div>
     <script src="menu.js" charset="utf-8"></script>

@@ -29,4 +29,6 @@ $('.ui.sidebar.menu .item').on('click',function () {
   $('.page.' + items[$(this).index()]).show();
 });
 
-$('.ui.dropdown').dropdown();
+$('.ui.dropdown').dropdown({
+  action: 'hide'
+});
