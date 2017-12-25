@@ -61,23 +61,25 @@
       </div>
     </div>
     <div class="main">
-      <div class="ui borderless menu grid">
+      <div class="ui borderless grid menu">
+        <!-- <a class="ui mobile only grid item" style="margin: 0">
+          <i class="sidebar icon" style="padding: 0"></i>
+        </a> -->
         <div class="left item" style="width: 50%; max-width: 1500px; min-width: 200px;">
           <div class="ui icon input">
             <input type="text" placeholder="Search...">
             <i class="search icon"></i>
           </div>
         </div>
-        <div class="ui top right dropdown icon item">
-          <i class="settings icon"></i>
+        <div class="ui top right dropdown icon tablet computer only grid item" style="margin: 0">
+          <i class="settings icon" style="padding: 0"></i>
           <div class="menu">
             <div class="item"><i class="edit icon"></i>Edit User</div>
             <div class="item"><i class="delete icon"></i>Remove User</div>
             <div class="item"><i class="hide icon"></i>Make Invisible</div>
             <div class="item">
-              <i class="left dropdown icon"></i>
               <span class="text"><i class="file outline icon"></i> Page</span>
-              <div class="left menu" style="right: 100%;">
+              <div class="menu" style="right: 100%;">
                 <div class="item nav-reload" data-value="reload"><i class="refresh icon"></i> Reload</div>
                 <div class="item nav-back" data-value="back"><i class="arrow circle left icon"></i> Go back</div>
                 <div class="item nav-forward" data-value="forward"><i class="arrow circle right icon"></i> Go forward</div>
@@ -85,7 +87,7 @@
             </div>
           </div>
         </div>
-        <div class="ui dropdown item">
+        <div class="ui dropdown tablet computer only grid item" style="margin: 0">
           类别
           <i class="dropdown icon"></i>
           <div class="menu">
@@ -94,8 +96,9 @@
             <a class="item">Home</a>
           </div>
         </div>
-        <a class="item">
-          <i class="plus icon"></i>
+        <a class="ui tablet computer only grid item" style="margin: 0">
+          <i class="plus icon" style="padding: 0"></i>
+          添加
         </a>
         <a class="browse item">
           <i class="ellipsis vertical icon"></i>
@@ -103,10 +106,10 @@
         <div class="ui popup transition hidden">
           <div class="ui equal width relaxed divided grid">
             <div class="column">
-              <h4 class="ui header">菜单</h4>
+              <h4 class="ui header mobile only grid" style="margin: auto; margin-bottom: 1rem;">菜单</h4>
               <div class="menu">
-                <div class="ui simple dropdown item">
-                  <i class="caret left icon"></i>
+                <div class="ui simple dropdown item mobile only grid" style="margin: auto">
+                  <i class="caret left icon" style="padding: 0"></i>
                   类别
                   <div class="menu" style="left: auto; right: 100%; top: 0 ! important">
                     <div class="item">Electronics</div>
@@ -114,17 +117,16 @@
                     <div class="item">Home</div>
                   </div>
                 </div>
-                <div class="ui simple dropdown item">
-                  <i class="settings icon"></i>
+                <div class="ui simple dropdown item mobile only grid" style="margin: auto">
+                  <i class="settings icon" style="padding: 0"></i>
                   设置
                   <div class="menu" style="left: auto; right: 100%; top: 0 ! important">
                     <div class="item"><i class="edit icon"></i>Edit User</div>
                     <div class="item"><i class="delete icon"></i>Remove User</div>
                     <div class="item"><i class="hide icon"></i>Make Invisible</div>
                     <div class="item">
-                      <i class="left dropdown icon"></i>
                       <span class="text"><i class="file outline icon"></i> Page</span>
-                      <div class="left menu" style="right: 100%; left: auto ! important">
+                      <div class="menu" style="right: 100%; left: auto ! important">
                         <div class="item nav-reload" data-value="reload"><i class="refresh icon"></i> Reload</div>
                         <div class="item nav-back" data-value="back"><i class="arrow circle left icon"></i> Go back</div>
                         <div class="item nav-forward" data-value="forward"><i class="arrow circle right icon"></i> Go forward</div>
@@ -157,15 +159,41 @@
                 <img src="https://semantic-ui.com/images/wireframe/image.png">
               </div>
               <div class="content">
-                <a class="header">12 Years a Slave</a>
+                <!-- <div class="ui form">
+                  <div class="ui large input">
+                    <input type="text" value="12 Years a Slave" style="" />
+                  </div>
+                  <div class="meta">
+                    <div class="ui small input">
+                      <input type="text" name="" value="Union Square 14" />
+                    </div>
+                    <div class="ui small input">
+                      <input type="text" name="" value="$24.2" />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <textarea>Fugiat consequat ad ea deserunt aliquip cupidatat velit enim ex eiusmod labore aliqua aute id fugiat</textarea>
+                  </div>
+                  <div class="ui fluid multiple search selection dropdown">
+                    <input type="hidden" name="categroy">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">类别</div>
+                    <div class="menu">
+                      <div class="item" data-value="ix">IMAX</div>
+                      <div class="item" data-value="al"><i class="globe icon"></i> Additional Languages</div>
+                      <div class="item" data-value="lt"><i class="student icon"></i> Student</div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="header">12 Years a Slave</div>
                 <div class="meta">
                   <span class="type">Union Square 14</span>
                   <span class="price">$24.2</span>
                 </div>
                 <div class="description">
-                  <p></p>
+                  <p>Fugiat consequat ad ea deserunt aliquip cupidatat velit enim ex eiusmod labore aliqua aute id fugiat.</p>
                 </div>
-                <div class="extra">
+                <div class="extra category">
                   <div class="ui label">IMAX</div>
                   <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
                 </div>
@@ -217,7 +245,7 @@
           </div>
         </div>
         <!-- 二维码 -->
-        <div class="page qrcode ui center aligned grid" style="display: none">
+          <div class="page qrcode ui center aligned grid" style="display: none">
           <img class="ui rounded image" src="https://media-cdn.tripadvisor.com/media/photo-s/0b/e9/84/1a/wechat-qr-code.jpg">
         </div>
         <!-- 设置 -->
