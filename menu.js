@@ -10,8 +10,62 @@
 // });
 
 const items=['file', 'qrcode', 'settings', 'users', 'sign-in', 'sign-out']
-let selected_items = []
+const categories = [
+  {
+    content: "IMAX",
+    astro: "imax"
+  },
+  {
+    content: "Additional Languages",
+    astro: "al",
+    icon: "globe"
+  },
+  {
+    content: "Student",
+    astro: "st",
+    icon: "student"
+  },
+  {
+    content: "Limited",
+    astro: "ld",
+  }
+]
+const categoryHtml = (category) => {
+  return $(`<div>${category.icon ? '<i class="' + category.icon + ' icon"></i>' : ''}${category.content}</div>`).html()
+}
+const products = [
+  {
+    name: "12 Years a Slave",
+    metas: {
+      short: "Union Square 14",
+      price: 24.2
+    },
+    description: "Fugiat consequat ad ea deserunt aliquip cupidatat velit enim ex eiusmod labore aliqua aute id fugiat.",
+    category: ["imax", "al"]
+  },
+  {
+    name: "My Neighbor Totoro",
+    metas: {
+      short: "IFC Cinema"
+      price: 23.5
+    },
+    description: "Tempor proident nisi dolor mollit ullamco voluptate exercitation laborum aliquip. Pariatur minim et mollit est nisi voluptate eiusmod commodo. Veniam quis commodo sit exercitation in ipsum laboris pariatur non ut consequat magna nisi cillum eiusmod.",
+    category: ["ld"]
+  },
+  {
+    name: "Watchmen",
+    metas: {
+      short: "IFC",
+      price: 25.7
+    },
+    description: "Culpa nisi nulla minim laboris occaecat cillum et dolor velit magna excepteur. Laboris sit exercitation proident voluptate excepteur adipisicing sunt adipisicing minim consectetur non Lorem elit sint irure nostrud. Laborum non mollit officia duis reprehenderit elit culpa officia id fugiat excepteur ea non. Anim deserunt laborum enim quis laborum labore ea. Ut cillum culpa amet sunt voluptate eu est dolor est proident officia. Velit tempor culpa velit qui dolor consequat consectetur veniam est officia eu est. Non qui laborum Lorem anim eu quis sint ut dolore non culpa id magna nisi et consequat. Proident do irure consectetur adipisicing sint labore cillum voluptate reprehenderit.",
+    category: []
+  }
+]
 
+
+
+let selected_items = []
 
 $('.menu .browse')
   .popup({
@@ -57,8 +111,8 @@ $('.core .page.file .item .image').on('click', function () {
     })
     description_input = $(`<div class="field"><textarea>${description.text().trim()}</textarea></div>`)
     category_input = $('<div class="ui fluid multiple search selection dropdown"><input type="hidden" name="categroy"><i class="dropdown icon"></i><div class="default text">类别</div><div class="menu"></div></div>')
-    $(category).find('.label').each((_, b) => {
-      $(`<div class="item" data-value="${$(b).text().trim()}">${$(b).html()}</div>`).appendTo($(category_input.find(".menu")))
+    categories.forEach((b) => {
+      $(`<div class="item" data-value="${b.astro}">${categoryHtml(b)}</div>`).appendTo($(category_input.find(".menu")))
     })
     header_input.appendTo(form)
     meta_input.appendTo(form)
@@ -73,4 +127,4 @@ $('.core .page.file .item .image').on('click', function () {
       selected_items = selected_items.filter((e) => e !== item.index())
     })
   }
-})
+});
