@@ -9,6 +9,16 @@
 //   }
 // });
 
+const config = {
+  file: {
+    page: {
+      num: 1
+    },
+    items: {
+      limit: 10
+    }
+  } 
+}
 const items=['file', 'qrcode', 'settings', 'users', 'sign-in', 'sign-out']
 const categories = [
   {
@@ -186,6 +196,44 @@ const products_$ = products.map((product) => {
   return item
 })
 
+const popUpAddItem = () => {
+  if (! $('.core .page.file .ui.container.list_products').hasClass('hidden')) {
+    $('.core .page.file .ui.container.list_products').transition('fade down')
+  }
+  if ($('.core .page.file .ui.container.add_products').hasClass('hidden')) {
+    $('.core .page.file .ui.container.add_products').transition('fade up')
+  }
+}
+
+const pushItem = () => {
+  if ($('.core .page.file .ui.container.list_products').hasClass('hidden')) {
+    $('.core .page.file .ui.container.list_products').transition('fade down')
+  }
+  if (! $('.core .page.file .ui.container.add_products').hasClass('hidden')) {
+    $('.core .page.file .ui.container.add_products').transition('fade up')
+  }
+}
+
+const cancelItem = () => {
+  if ($('.core .page.file .ui.container.list_products').hasClass('hidden')) {
+    $('.core .page.file .ui.container.list_products').transition('fade down')
+  }
+  if (! $('.core .page.file .ui.container.add_products').hasClass('hidden')) {
+    $('.core .page.file .ui.container.add_products').transition('fade up')
+  }
+}
+
+const product_add_form_$ = $('<form class="ui form"></form>')
+product_add_form_$.append('<div class="field"><label>First Name</label><input type="text" name="first-name" placeholder="First Name"></div>')
+product_add_form_$.append('<div class="field"><label>Last Name</label><input type="text" name="last-name" placeholder="Last Name"></div>')
+product_add_form_$.append('<div class="field"><label>Text</label><textarea data-gramm="true" data-txt_gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" data-gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: transparent !important;"></textarea></div>')
+product_add_form_cancel_button_$ = $('<button class="ui button" type="button">Cancel</button>')
+product_add_form_cancel_button_$.on('click', cancelItem)
+product_add_form_$.append(product_add_form_cancel_button_$ )
+product_add_form_$.append('<button class="ui button" type="button">Submit</button>')
+product_add_form_$.appendTo()
+
+
 $('.menu .browse')
   .popup({
     inline: true,
@@ -245,11 +293,15 @@ $('.ui.dropdown').dropdown({
 //   }
 // });
 
-file_items_$ = $('.core .page.file .ui.items.container').first()
+file_items_$ = $('.core .page.file .ui.items.container.list_products').first()
 file_items_dummy_$ = file_items_$.find('.item.dummy:last')
+
+$('.main .ui.menu .ui.popup .ui.grid .column .menu .item .plus').parent().on('click', popUpAddItem)
 
 $(document).ready(() => {
   products_$.forEach((p) => {
     p.insertBefore(file_items_dummy_$)
   })
+
+  $('.core .page.file .ui.container.add_products').append(product_add_form_$)
 })
