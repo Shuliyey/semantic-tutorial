@@ -158,56 +158,61 @@ const populateProductContent = (product, content) => {
     $(`<div class="ui label">${ c.icon ? '<i class="' + c.icon + ' icon"></i>' : ''}${c.content}</div>`).appendTo(extra)
   })
 }
+
+product_edit = (product, item) => {
+  check_circles = item.find('.check.circle')
+  if (check_circles.length === 0) {
+    $('<i class="green large check circle icon" style="display: none"></i>').prependTo(item).fadeIn(function() {
+      selected_items.push(item.index())
+    })
+    const content = item.find('.content:first')
+    const form = $('<div class="ui form"></div>')
+    const header_input = $(`<div class="ui large input product_name"><input type="text" value="${product.name}"></div>'`)
+    const meta_input = $(`<div class="meta product_metas"></div>`)
+    for (m in product.metas) {
+      $(`<div class="ui small input"><input type="text" name="meta_${m}" value="${displayMeta(product.metas[m], m)}" /></div>`).appendTo(meta_input)
+    }
+    const description_input = $(`<div class="field product_description"><textarea>${product.description}</textarea></div>`)
+    const category_input = $('<div class="ui fluid multiple search selection dropdown product_categories"><input type="hidden" name="categroy" value=""><i class="dropdown icon"></i><div class="default text">类别</div><div class="menu"></div></div>')
+    const category_input_items = categories.map((b) => {
+      $(`<div class="item" data-value="${b.astro}">${categoryHtml(b)}</div>`).appendTo(category_input.find(".menu")).promise()
+    })
+    header_input.appendTo(form)
+    meta_input.appendTo(form)
+    description_input.appendTo(form)
+    category_input.appendTo(form)
+    Promise.all(category_input_items).then(function() {
+      category_input.dropdown('set selected', product.categories)
+    })
+    content.empty()
+    form.appendTo($(content))
+  } else {
+    check_circles.fadeOut(function() {
+      $(this).remove()
+      selected_items = selected_items.filter((e) => e !== item.index())
+      const form = item.find('.form:first')
+      const content = item.find('.content:first')
+      product.name = content.find('.ui.input.product_name:first').find('input:first').val()
+      const metas_$ = item.find('.product_metas:first')
+      metas_$.find('.ui.input input').each((_, i) => {
+        const key = $(i).attr('name').split('_')[1]
+        product.metas[key] = convertMeta($(i).val(), key)
+      })
+      product.description = item.find('.product_description textarea:first').val()
+      // console.log(item.find('.product_categories input:first').val())
+      product.categories = item.find('.product_categories input:first').val().split(',').filter(val => val !== '')
+      content.empty()
+      populateProductContent(product, content)
+    })
+  }
+}
+
 const products_$ = products.map((product) => {
   let item = $('<div class="item"></div>')
   const image = $(`<div class="image"><img src="${product.img ? product.img : product_default.img}"></div>`)
   image.appendTo(item)
   image.on('click', function () {
-    check_circles = item.find('.check.circle')
-    if (check_circles.length === 0) {
-      $('<i class="green large check circle icon" style="display: none"></i>').prependTo(item).fadeIn(function() {
-        selected_items.push(item.index())
-      })
-      const content = item.find('.content:first')
-      const form = $('<div class="ui form"></div>')
-      const header_input = $(`<div class="ui large input product_name"><input type="text" value="${product.name}"></div>'`)
-      const meta_input = $(`<div class="meta product_metas"></div>`)
-      for (m in product.metas) {
-        $(`<div class="ui small input"><input type="text" name="meta_${m}" value="${displayMeta(product.metas[m], m)}" /></div>`).appendTo(meta_input)
-      }
-      const description_input = $(`<div class="field product_description"><textarea>${product.description}</textarea></div>`)
-      const category_input = $('<div class="ui fluid multiple search selection dropdown product_categories"><input type="hidden" name="categroy" value=""><i class="dropdown icon"></i><div class="default text">类别</div><div class="menu"></div></div>')
-      const category_input_items = categories.map((b) => {
-        $(`<div class="item" data-value="${b.astro}">${categoryHtml(b)}</div>`).appendTo(category_input.find(".menu")).promise()
-      })
-      header_input.appendTo(form)
-      meta_input.appendTo(form)
-      description_input.appendTo(form)
-      category_input.appendTo(form)
-      Promise.all(category_input_items).then(function() {
-        category_input.dropdown('set selected', product.categories)
-      })
-      content.empty()
-      form.appendTo($(content))
-    } else {
-      check_circles.fadeOut(function() {
-        $(this).remove()
-        selected_items = selected_items.filter((e) => e !== item.index())
-        const form = item.find('.form:first')
-        const content = item.find('.content:first')
-        product.name = content.find('.ui.input.product_name:first').find('input:first').val()
-        const metas_$ = item.find('.product_metas:first')
-        metas_$.find('.ui.input input').each((_, i) => {
-          const key = $(i).attr('name').split('_')[1]
-          product.metas[key] = convertMeta($(i).val(), key)
-        })
-        product.description = item.find('.product_description textarea:first').val()
-        // console.log(item.find('.product_categories input:first').val())
-        product.categories = item.find('.product_categories input:first').val().split(',').filter(val => val !== '')
-        content.empty()
-        populateProductContent(product, content)
-      })
-    }
+    product_edit(product, item)
   })
   const content = $('<div class="content"></div>')
   content.appendTo(item)
@@ -226,7 +231,7 @@ const render_products = () => {
 const remove_displayed_products = () => {
   products_$.forEach((p, i) => {
     if (i >= (config.file.page.num - 1) * config.file.items.limit && i < config.file.page.num * config.file.items.limit) {
-      p.remove()
+      p.detach()
     }
   })
 }
