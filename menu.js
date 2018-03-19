@@ -196,6 +196,10 @@ const products_$ = products.map((product) => {
   return item
 })
 
+/* ========= product pagination ========= */
+product_pagination_$ = $(".core .page.file .ui.container.list_products .ui.pagination.menu")
+product_pagination_$.append($('<a class="active item">1</a>'))
+product_pagination_$.append($('<a class="item">2</a>'))
 
 /* ========= add product item ========= */
 
@@ -245,6 +249,8 @@ product_add_form_cancel_button_$.on('click', cancelItem)
 product_add_form_$.append(product_add_form_cancel_button_$)
 product_add_form_$.append('<button class="ui button" type="button">Submit</button>')
 
+
+/* ========= sidebar navigation ========= */
 
 $('.menu .browse')
   .popup({

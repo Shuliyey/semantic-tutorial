@@ -36,8 +36,36 @@
       }
 
       .dropzone .dz-message {
-        font-weight: 400;
+        font-weight: 500;
         font-weight: bold;
+      }
+
+      .dropzone a.dz-remove,
+      .dropzone-previews a.dz-remove {
+        background-image: -webkit-linear-gradient(top, #fafafa, #eee);
+        background-image: -moz-linear-gradient(top, #fafafa, #eee);
+        background-image: -o-linear-gradient(top, #fafafa, #eee);
+        background-image: -ms-linear-gradient(top, #fafafa, #eee);
+        background-image: linear-gradient(to bottom, #fafafa, #eee);
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        border: 1px solid #eee;
+        text-decoration: none;
+        display: block;
+        padding: 4px 5px;
+        text-align: center;
+        color: red;
+        margin-top: 10px;
+      }
+      .dropzone a.dz-remove:hover,
+      .dropzone-previews a.dz-remove:hover {
+        color: #666;
+      }
+      .dropzone .dz-preview .dz-success-mark,
+      .dropzone-previews .dz-preview .dz-success-mark,
+      .dropzone .dz-preview .dz-error-mark,
+      .dropzone-previews .dz-preview .dz-error-mark {
+        top: calc(50% - 19px);
       }
     </style>
   </head>
@@ -167,7 +195,7 @@
           </div>
           <div class="ui center aligned container list_products" style="bottom: 1rem; position: absolute;">
             <div class="ui pagination menu">
-              <a class="active item">
+<!--               <a class="active item">
                 1
               </a>
               <div class="item">
@@ -190,7 +218,7 @@
               </a>
               <a class="item">
                 15
-              </a>
+              </a> -->
             </div>
           </div>
           <div class="ui container add_products transition hidden">
