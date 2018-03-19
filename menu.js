@@ -17,7 +17,7 @@ const config = {
     items: {
       limit: 10
     }
-  } 
+  }
 }
 const items=['file', 'qrcode', 'settings', 'users', 'sign-in', 'sign-out']
 const categories = [
@@ -81,6 +81,25 @@ const products = [
     categories: []
   }
 ]
+const populate_products = () => {
+  for (i=0; i < 10; i++) {
+    products.push({
+        name: "Watchmen",
+        metas: {
+          short: "IFC",
+          price: {
+            value: 25.7,
+            unit: '$'
+          }
+        },
+        description: "Culpa nisi nulla minim laboris occaecat cillum et dolor velit magna excepteur. Laboris sit exercitation proident voluptate excepteur adipisicing sunt adipisicing minim consectetur non Lorem elit sint irure nostrud. Laborum non mollit officia duis reprehenderit elit culpa officia id fugiat excepteur ea non. Anim deserunt laborum enim quis laborum labore ea. Ut cillum culpa amet sunt voluptate eu est dolor est proident officia. Velit tempor culpa velit qui dolor consequat consectetur veniam est officia eu est. Non qui laborum Lorem anim eu quis sint ut dolore non culpa id magna nisi et consequat. Proident do irure consectetur adipisicing sint labore cillum voluptate reprehenderit.",
+        categories: []
+    })
+  }
+}
+
+populate_products()
+
 const findCategory = (array, key) => {
   return array.find((x) => x.astro === key)
 }
@@ -183,8 +202,8 @@ const products_$ = products.map((product) => {
           product.metas[key] = convertMeta($(i).val(), key)
         })
         product.description = item.find('.product_description textarea:first').val()
-        console.log(item.find('.product_categories input:first').val())
-        product.categories = item.find('.product_categories input:first').val().split(',')
+        // console.log(item.find('.product_categories input:first').val())
+        product.categories = item.find('.product_categories input:first').val().split(',').filter(val => val !== '')
         content.empty()
         populateProductContent(product, content)
       })
@@ -196,10 +215,82 @@ const products_$ = products.map((product) => {
   return item
 })
 
+const render_products = () => {
+  products_$.forEach((p, i) => {
+    if (i >= (config.file.page.num - 1) * config.file.items.limit && i < config.file.page.num * config.file.items.limit) {
+      p.insertBefore(file_items_dummy_$)
+    }
+  })
+}
+
+const remove_displayed_products = () => {
+  products_$.forEach((p, i) => {
+    if (i >= (config.file.page.num - 1) * config.file.items.limit && i < config.file.page.num * config.file.items.limit) {
+      p.remove()
+    }
+  })
+}
+
 /* ========= product pagination ========= */
 product_pagination_$ = $(".core .page.file .ui.container.list_products .ui.pagination.menu")
-product_pagination_$.append($('<a class="active item">1</a>'))
-product_pagination_$.append($('<a class="item">2</a>'))
+page_num_input_$ = $('<input type="text">')
+page_num_input_$.val(config.file.page.num)
+page_num_direct_$ = $('<button class="ui button">跳到</button>')
+page_num_direct_$.on('click', () => {
+  console.log(page_num_input_$.val())
+})
+page_num_$ = $('<div class="ui action item input"></div>')
+page_num_$.append(page_num_input_$)
+page_num_$.append(page_num_direct_$)
+previous_pagination_button=$('<a class="item"><i class="chevron left icon"></i></a>')
+next_pagination_button=$('<a class="item"><i class="chevron right icon"></i></a>')
+
+const render_pagination = () => {
+  product_pagination_$.empty()
+  page_num_direct_$.on('click', () => {
+    go_to_page(parseInt(page_num_input_$.val()))
+  })
+
+  previous_pagination_button.on('click', previous_page)
+  next_pagination_button.on('click', next_page)
+  product_pagination_$.append(page_num_$)
+  if (config.file.page.num > 1) {
+    product_pagination_$.prepend(previous_pagination_button)
+  }
+  if (!(config.file.page.num*config.file.items.limit >= products.length)) {
+    product_pagination_$.append(next_pagination_button)
+  }
+}
+
+const setPageNum = (num) => {
+  if (typeof num !== 'number') {
+    return
+  }
+  config.file.page.num = num
+  page_num_input_$.val(config.file.page.num)
+}
+
+const go_to_page = (num) => {
+  num = Math.max(1, num)
+  num = Math.min(num, Math.ceil(products.length / config.file.items.limit))
+  if (num === config.file.page.num) {
+    return
+  }
+  remove_displayed_products()
+  setPageNum(num)
+  render_products()
+  render_pagination()
+}
+
+const previous_page = () => {
+  go_to_page(config.file.page.num - 1)
+}
+
+const next_page = () => {
+  go_to_page(config.file.page.num + 1)
+}
+
+render_pagination()
 
 /* ========= add product item ========= */
 
@@ -235,11 +326,11 @@ product_add_form_$.append('<div class="field"><label>First Name</label><input ty
 product_add_form_$.append('<div class="field"><label>Last Name</label><input type="text" name="last-name" placeholder="Last Name"></div>')
 product_add_form_$.append('<div class="field"><label>Text</label><textarea data-gramm="true" data-txt_gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" data-gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: transparent !important;"></textarea></div>')
 product_add_form_dropzone_$ = $('<div id="product_add_from_dropzone" class="field dropzone"></div>')
-product_add_form_dropzone_$.dropzone({ 
-  url: "https://www.google.com/upload-target", 
-  autoProcessQueue: false, 
-  dictDefaultMessage: "将菜图片拖到此处", 
-  uploadMultiple: true, 
+product_add_form_dropzone_$.dropzone({
+  url: "https://www.google.com/upload-target",
+  autoProcessQueue: false,
+  dictDefaultMessage: "将菜图片拖到此处",
+  uploadMultiple: true,
   addRemoveLinks: true,
   dictRemoveFile: "删除图片"
 })
@@ -255,8 +346,8 @@ product_add_form_$.append('<button class="ui button" type="button">Submit</butto
 $('.menu .browse')
   .popup({
     inline: true,
-    hoverable  : true,
-    position   : 'bottom right',
+    hoverable: true,
+    position: 'bottom right',
     delay: {
       show: 300,
       hide: 800
@@ -317,10 +408,7 @@ file_items_dummy_$ = file_items_$.find('.item.dummy:last')
 $('.main .ui.menu .ui.popup .ui.grid .column .menu .item .plus').parent().on('click', popUpAddItem)
 
 $(document).ready(() => {
-  products_$.forEach((p) => {
-    p.insertBefore(file_items_dummy_$)
-  })
-
+  render_products()
   $('.core .page.file .ui.container.add_products').append(product_add_form_$)
   product_add_from_dropzone = Dropzone.forElement("#product_add_from_dropzone")
 })
