@@ -274,6 +274,7 @@ const go_to_page = (num) => {
   num = Math.max(1, num)
   num = Math.min(num, Math.ceil(products.length / config.file.items.limit))
   if (num === config.file.page.num) {
+    setPageNum(num)
     return
   }
   remove_displayed_products()
