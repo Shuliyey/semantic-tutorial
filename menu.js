@@ -82,7 +82,7 @@ const products = [
   }
 ]
 const populate_products = () => {
-  for (i=0; i < 10; i++) {
+  for (i=0; i < 20; i++) {
     products.push({
         name: "Watchmen",
         metas: {
@@ -207,7 +207,7 @@ product_edit = (product, item) => {
   }
 }
 
-const products_$ = products.map((product) => {
+const create_item_from_product = (product) => {
   let item = $('<div class="item"></div>')
   const image = $(`<div class="image"><img src="${product.img ? product.img : product_default.img}"></div>`)
   image.appendTo(item)
@@ -218,7 +218,9 @@ const products_$ = products.map((product) => {
   content.appendTo(item)
   populateProductContent(product, content)
   return item
-})
+}
+
+const products_$ = products.map(create_item_from_product)
 
 const render_products = () => {
   products_$.forEach((p, i) => {
@@ -251,6 +253,11 @@ previous_pagination_button=$('<a class="item"><i class="chevron left icon"></i><
 next_pagination_button=$('<a class="item"><i class="chevron right icon"></i></a>')
 
 const render_pagination = () => {
+  // unbind existing on click events
+  previous_pagination_button.unbind('click')
+  next_pagination_button.unbind('click')
+  page_num_direct_$.unbind('click')
+
   product_pagination_$.empty()
   page_num_direct_$.on('click', () => {
     go_to_page(parseInt(page_num_input_$.val()))
@@ -289,10 +296,12 @@ const go_to_page = (num) => {
 }
 
 const previous_page = () => {
+  // console.log("previous page:", config.file.page.num)
   go_to_page(config.file.page.num - 1)
 }
 
 const next_page = () => {
+  // console.log("next page:", config.file.page.num)
   go_to_page(config.file.page.num + 1)
 }
 
@@ -309,7 +318,9 @@ const popUpAddItem = () => {
   }
 }
 
-const pushItem = () => {
+const AddProduct = (product) => {
+  products.push(product)
+  products_$.push(create_item_from_product(product))
   if ($('.core .page.file .ui.container.list_products').hasClass('hidden')) {
     $('.core .page.file .ui.container.list_products').transition('fade down')
   }
@@ -328,24 +339,76 @@ const cancelItem = () => {
 }
 
 const product_add_form_$ = $('<form class="ui form"></form>')
-product_add_form_$.append('<div class="field"><label>First Name</label><input type="text" name="first-name" placeholder="First Name"></div>')
-product_add_form_$.append('<div class="field"><label>Last Name</label><input type="text" name="last-name" placeholder="Last Name"></div>')
-product_add_form_$.append('<div class="field"><label>Text</label><textarea data-gramm="true" data-txt_gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" data-gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: transparent !important;"></textarea></div>')
+product_add_form_name_input_$=$('<div class="field"><label>菜名</label><input type="text" name="name" placeholder="菜名"></div>')
+product_add_form_$.append(product_add_form_name_input_$)
+product_add_form_short_input_$=$('<div class="field"><label>简述</label><input type="text" name="short" placeholder="简述"></div>')
+product_add_form_$.append(product_add_form_short_input_$)
+product_add_form_price_input_$=$('<div class="field"><label>价格</label><div class="ui labeled input"><label class="ui label">$</label><input type="number" placeholder="价格" name="price"></div></div>')
+product_add_form_$.append(product_add_form_price_input_$)
+product_add_form_description_textarea_$=$('<div class="field"><label>描述</label><textarea data-gramm="true" data-txt_gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" data-gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: transparent !important;"></textarea></div>')
+product_add_form_$.append(product_add_form_description_textarea_$)
 product_add_form_dropzone_$ = $('<div id="product_add_from_dropzone" class="field dropzone"></div>')
-product_add_form_dropzone_$.dropzone({
-  url: "https://www.google.com/upload-target",
-  autoProcessQueue: false,
-  dictDefaultMessage: "将菜图片拖到此处",
-  uploadMultiple: true,
-  addRemoveLinks: true,
-  dictRemoveFile: "删除图片"
+product_add_form_category_input = $('<div class="ui fluid multiple search selection dropdown categories"><input type="hidden" name="categroy" value=""><i class="dropdown icon"></i><div class="default text">类别</div><div class="menu"></div></div>')
+product_add_form_category_input_items = categories.map((b) => {
+  $(`<div class="item" data-value="${b.astro}">${categoryHtml(b)}</div>`).appendTo(product_add_form_category_input.find(".menu")).promise()
 })
+product_add_form_category_field=$('<div class="field"><label>类别</label></div>')
+product_add_form_category_field.append(product_add_form_category_input)
+Promise.all(product_add_form_category_input_items).then(function() {
+  product_add_form_category_input.dropdown('set selected', [])
+})
+product_add_form_$.append(product_add_form_category_field)
 product_add_form_$.append(product_add_form_dropzone_$)
 product_add_form_cancel_button_$ = $('<button class="ui button" type="button">Cancel</button>')
 product_add_form_cancel_button_$.on('click', cancelItem)
 product_add_form_$.append(product_add_form_cancel_button_$)
-product_add_form_$.append('<button class="ui button" type="button">Submit</button>')
+product_add_form_submit_button_$ = $('<button class="ui button" type="button">Submit</button>')
+product_add_form_$.append(product_add_form_submit_button_$)
 
+product_add_form_dropzone_$.dropzone({
+  // url: "https://www.google.com/upload-target",
+  url: "/",
+  autoProcessQueue: false,
+  dictDefaultMessage: "将菜图片拖到此处",
+  uploadMultiple: true,
+  addRemoveLinks: true,
+  dictRemoveFile: "删除图片",
+  init: function () {
+    const self = this
+    const createNewProduct = () => {
+      const name = product_add_form_name_input_$.find('input').val().trim()
+      const short = product_add_form_short_input_$.find('input').val().trim()
+      const unit = '$'
+      const value = parseFloat(product_add_form_price_input_$.find('input').val().trim())
+      const description = product_add_form_description_textarea_$.find('textarea').val().trim()
+      const categories = product_add_form_category_input.find('input:first').val().split(',').filter(val => val !== '')
+      const files = self.files
+      const product = {
+        name,
+        metas: {
+          short,
+          price: {
+            value,
+            unit
+          }
+        },
+        description,
+        categories: categories,
+      }
+      console.log(product)
+      self.removeAllFiles()
+    }
+    product_add_form_submit_button_$.on('click', function() {
+      const files = self.files
+      self.processQueue()
+      createNewProduct()
+    })
+    this.on('queuecomplete', function() {
+      const files = self.files
+      createNewProduct()
+    })
+  }
+})
 
 /* ========= sidebar navigation ========= */
 
@@ -412,9 +475,10 @@ file_items_$ = $('.core .page.file .ui.items.container.list_products').first()
 file_items_dummy_$ = file_items_$.find('.item.dummy:last')
 
 $('.main .ui.menu .ui.popup .ui.grid .column .menu .item .plus').parent().on('click', popUpAddItem)
+$('.main .ui.menu .ui.item .plus').parent().on('click', popUpAddItem)
 
 $(document).ready(() => {
   render_products()
   $('.core .page.file .ui.container.add_products').append(product_add_form_$)
-  product_add_from_dropzone = Dropzone.forElement("#product_add_from_dropzone")
+  // product_add_from_dropzone = Dropzone.forElement("#product_add_from_dropzone")
 })
