@@ -45,6 +45,7 @@ const categoryHtml = (category) => {
 }
 const products = [
   {
+    _id: uuidv4(),
     name: "12 Years a Slave",
     metas: {
       short: "Union Square 14",
@@ -57,6 +58,7 @@ const products = [
     categories: ["imax", "al"],
   },
   {
+    _id: uuidv4(),
     name: "My Neighbor Totoro",
     metas: {
       short: "IFC Cinema",
@@ -69,6 +71,7 @@ const products = [
     categories: ["ld"]
   },
   {
+    _id: uuidv4(),
     name: "Watchmen",
     metas: {
       short: "IFC",
@@ -84,16 +87,17 @@ const products = [
 const populate_products = () => {
   for (i=0; i < 20; i++) {
     products.push({
-        name: "Watchmen",
-        metas: {
-          short: "IFC",
-          price: {
-            value: 25.7,
-            unit: '$'
-          }
-        },
-        description: "Culpa nisi nulla minim laboris occaecat cillum et dolor velit magna excepteur. Laboris sit exercitation proident voluptate excepteur adipisicing sunt adipisicing minim consectetur non Lorem elit sint irure nostrud. Laborum non mollit officia duis reprehenderit elit culpa officia id fugiat excepteur ea non. Anim deserunt laborum enim quis laborum labore ea. Ut cillum culpa amet sunt voluptate eu est dolor est proident officia. Velit tempor culpa velit qui dolor consequat consectetur veniam est officia eu est. Non qui laborum Lorem anim eu quis sint ut dolore non culpa id magna nisi et consequat. Proident do irure consectetur adipisicing sint labore cillum voluptate reprehenderit.",
-        categories: []
+      _id: uuidv4(),
+      name: "Watchmen",
+      metas: {
+        short: "IFC",
+        price: {
+          value: 25.7,
+          unit: '$'
+        }
+      },
+      description: "Culpa nisi nulla minim laboris occaecat cillum et dolor velit magna excepteur. Laboris sit exercitation proident voluptate excepteur adipisicing sunt adipisicing minim consectetur non Lorem elit sint irure nostrud. Laborum non mollit officia duis reprehenderit elit culpa officia id fugiat excepteur ea non. Anim deserunt laborum enim quis laborum labore ea. Ut cillum culpa amet sunt voluptate eu est dolor est proident officia. Velit tempor culpa velit qui dolor consequat consectetur veniam est officia eu est. Non qui laborum Lorem anim eu quis sint ut dolore non culpa id magna nisi et consequat. Proident do irure consectetur adipisicing sint labore cillum voluptate reprehenderit.",
+      categories: []
     })
   }
 }
@@ -143,6 +147,14 @@ const convertMeta = (mval, type) => {
 }
 const product_default = {
   img: "https://semantic-ui.com/images/wireframe/image.png"
+}
+const getProductImage = (product) => {
+  if (typeof product.images === 'object' && Array.isArray(product.images.urls) && product.images.urls.length > 0) {
+    if (typeof product.images.selected  === 'number') {
+      return product.images.urls[Math.min(product.images.urls.length, Math.max(0, product.images.selected))]
+    }
+  }
+  return product_default.img
 }
 let selected_items = []
 const populateProductContent = (product, content) => {
@@ -209,7 +221,7 @@ product_edit = (product, item) => {
 
 const create_item_from_product = (product) => {
   let item = $('<div class="item"></div>')
-  const image = $(`<div class="image"><img src="${product.img ? product.img : product_default.img}"></div>`)
+  const image = $(`<div class="image"><img src="${getProductImage(product)}"></div>`)
   image.appendTo(item)
   image.on('click', function () {
     product_edit(product, item)
@@ -282,10 +294,10 @@ const setPageNum = (num) => {
   page_num_input_$.val(config.file.page.num)
 }
 
-const go_to_page = (num) => {
+const go_to_page = (num, render) => {
   num = Math.max(1, num)
   num = Math.min(num, Math.ceil(products.length / config.file.items.limit))
-  if (num === config.file.page.num) {
+  if (num === config.file.page.num && !render) {
     setPageNum(num)
     return
   }
@@ -329,6 +341,16 @@ const AddProduct = (product) => {
   }
 }
 
+const DirectToProduct = (product, i) => {
+  let j = i;
+  for (j = i; j < products.length; j++) {
+    if (products[j]._id === product._id) {
+      break
+    }
+  }
+  go_to_page(Math.floor(j/config.file.items.limit + 1), true)
+}
+
 const cancelItem = () => {
   if ($('.core .page.file .ui.container.list_products').hasClass('hidden')) {
     $('.core .page.file .ui.container.list_products').transition('fade down')
@@ -339,11 +361,11 @@ const cancelItem = () => {
 }
 
 const product_add_form_$ = $('<form class="ui form"></form>')
-product_add_form_name_input_$=$('<div class="field"><label>菜名</label><input type="text" name="name" placeholder="菜名"></div>')
+product_add_form_name_input_$=$('<div class="field"><label>菜名</label><input type="text" name="name" placeholder="菜名" required></div>')
 product_add_form_$.append(product_add_form_name_input_$)
 product_add_form_short_input_$=$('<div class="field"><label>简述</label><input type="text" name="short" placeholder="简述"></div>')
 product_add_form_$.append(product_add_form_short_input_$)
-product_add_form_price_input_$=$('<div class="field"><label>价格</label><div class="ui labeled input"><label class="ui label">$</label><input type="number" placeholder="价格" name="price"></div></div>')
+product_add_form_price_input_$=$('<div class="field"><label>价格</label><div class="ui labeled input"><label class="ui label">$</label><input type="number" placeholder="价格" name="price" step="0.01" required></div></div>')
 product_add_form_$.append(product_add_form_price_input_$)
 product_add_form_description_textarea_$=$('<div class="field"><label>描述</label><textarea data-gramm="true" data-txt_gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" data-gramm_id="af3000fa-8d00-2b04-29f9-4d24f12a69e6" spellcheck="false" data-gramm_editor="true" style="z-index: auto; position: relative; line-height: 17.9998px; font-size: 14px; transition: none; background: transparent !important;"></textarea></div>')
 product_add_form_$.append(product_add_form_description_textarea_$)
@@ -362,8 +384,17 @@ product_add_form_$.append(product_add_form_dropzone_$)
 product_add_form_cancel_button_$ = $('<button class="ui button" type="button">Cancel</button>')
 product_add_form_cancel_button_$.on('click', cancelItem)
 product_add_form_$.append(product_add_form_cancel_button_$)
-product_add_form_submit_button_$ = $('<button class="ui button" type="button">Submit</button>')
+product_add_form_submit_button_$ = $('<button class="ui button" type="submit">Submit</button>')
 product_add_form_$.append(product_add_form_submit_button_$)
+product_add_form_$.submit(function(e) {
+    e.preventDefault();
+})
+
+const product_add_form_reset = () => {
+  product_add_form_$.find('input').val("")
+  product_add_form_category_input.dropdown('clear')
+  product_add_form_description_textarea_$.find('textarea').val('')
+}
 
 product_add_form_dropzone_$.dropzone({
   // url: "https://www.google.com/upload-target",
@@ -384,6 +415,7 @@ product_add_form_dropzone_$.dropzone({
       const categories = product_add_form_category_input.find('input:first').val().split(',').filter(val => val !== '')
       const files = self.files
       const product = {
+        _id: uuidv4(),
         name,
         metas: {
           short,
@@ -393,18 +425,41 @@ product_add_form_dropzone_$.dropzone({
           }
         },
         description,
-        categories: categories,
+        categories,
       }
-      console.log(product)
+      if (files.length > 0) {
+        product.images = {
+          urls: files.map(file => file.dataURL),
+          selected: 0
+        }
+      }
+      AddProduct(product)
+      product_add_form_reset();
+      DirectToProduct(product, products.length - 1)
+
       self.removeAllFiles()
     }
-    product_add_form_submit_button_$.on('click', function() {
-      const files = self.files
+
+    const validateInput = () => {
+      const name = product_add_form_name_input_$.find('input').val().trim()
+      const value = parseFloat(product_add_form_price_input_$.find('input').val().trim())
+      // $validator = product_add_form_$.validate()
+      if (name.length === 0 || typeof value !== 'number' || Number.isNaN(value)) {
+        return false
+      }
+
+      return true
+    }
+    product_add_form_submit_button_$.on('click', function(e) {
+      if (!validateInput()) {
+        return
+      }
+
       self.processQueue()
+      // below can be removed, once connected to backend
       createNewProduct()
     })
     this.on('queuecomplete', function() {
-      const files = self.files
       createNewProduct()
     })
   }
